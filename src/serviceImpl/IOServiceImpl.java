@@ -21,15 +21,30 @@ public class IOServiceImpl implements IOService{
 		String n="password";
 		if(k.equals(a)||m.equals(n)){
 			if(!tu){
-			try {
-			     f.createNewFile();
-			     FileWriter fw = new FileWriter(f, false);
-			     fw.write(file);
-				 fw.flush();
-				 fw.close();
-		        } catch (IOException e) {
+				if(m.equals(n)){
+			      try {
+			        f.createNewFile();
+			        FileWriter fw = new FileWriter(f, false);
+			        fw.write(file);
+				    fw.flush();
+				    fw.close();
+		            } catch (IOException e) {
 			         e.printStackTrace();
-		        }
+		             }
+				}
+				else{
+					try {
+						f.createNewFile();
+						FileWriter fw=new FileWriter(f);
+						fw.write("123");
+						fw.flush();
+						fw.close();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+				}
 			}
 		}
 		else{
@@ -92,5 +107,55 @@ public class IOServiceImpl implements IOService{
 			}
 		}
 		return name;
+	}
+	@Override
+	public String writefileline(String code,String userId,String filename){
+		File f=new File(userId+"_"+filename);
+		String a="";
+		String m="";
+		String output="";
+		try {
+			FileReader fr=new FileReader(f);
+			BufferedReader Br=new BufferedReader(fr);
+			while((a=Br.readLine())!=null){
+				m=m+a;
+			}
+			output="1"+code+"2"+m.substring(m.indexOf("1")+1,m.indexOf("2"))+"3"+m.substring(m.indexOf("2")+1,m.indexOf("3"));
+			FileWriter fw=new FileWriter(f);
+			fw.write(output);
+			fw.flush();
+			fw.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return output;
+	}
+	@Override
+	public String readfileline(int line,String userId,String filename){
+		File f=new File(userId+"_"+filename);
+		String m="";
+		String a="";
+		String code="";
+		try {
+			FileReader fr=new FileReader(f);
+			BufferedReader Br=new BufferedReader(fr);
+			while((a=Br.readLine())!=null){
+				m=m+a;
+			}
+			if(line==1){
+				code=m.substring(m.indexOf("1")+1,m.indexOf("2"));
+			}
+			if(line==2){
+				code=m.substring(m.indexOf("2")+1,m.indexOf("3"));
+			}
+			if(line==3){
+				code=m.substring(m.indexOf("3")+1);
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return code;
 	}
 }

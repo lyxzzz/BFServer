@@ -58,9 +58,16 @@ public class DataRemoteObject extends UnicastRemoteObject implements IOService, 
 		return iOService.register(password, userId);
 	}
 	@Override
+	public String writefileline(String code,String userId,String filename)throws RemoteException{
+		return iOService.writefileline(code, userId, filename);
+	}
+	@Override
 	public String execute(String code,String param) throws RemoteException {
 		return executeservice.execute(code, param);
 		
 	}
-
+    @Override
+    public String readfileline(int line,String userId,String filename)throws RemoteException{
+    	return iOService.readfileline(line, userId, filename);
+    }
 }
